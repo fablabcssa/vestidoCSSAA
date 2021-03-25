@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Smart Dress</title>
+	<link rel="shortcut icon" type="image/x-icon" href="canvas%20(1).png" mce_href="logo solo fondo gris.ico">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="https://fonts.googleapis.com/css?family=Cabin|Questrial|Raleway" rel="stylesheet">
+    
+</head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    var temp = 0;
+    var hume = 0;
+    var dia = 0;
+    var mes = 0;
+    var año = 0;
+    var hora = 0;
+    var minutos = 0;
+    var result8 = 0;
+    
+    var result1anterior = 0;
+    var result2anterior = 0;
+    var result7anterior = 0;
+    var result8anterior = 0;
+    
+    //----------------------------------------------Leer valores de thingpeak---------------------------------------------------
+   function loadmaps(){
+            $.getJSON("https://api.thingspeak.com/channels/1288633/fields/1/last.json?api_key=8XM1WXCRPOO1294M", function(result){
+        	
+            var m = result;
+            temp=Number(m.field1);
+            
+                
+            
+        });
+            $.getJSON("https://api.thingspeak.com/channels/1288633/fields/2/last.json?api_key=8XM1WXCRPOO1294M", function(result){
+        	
+            var m = result;
+            hume=Number(m.field2);
+                        
+                
+        });
+       $.getJSON("https://api.thingspeak.com/channels/1319063/fields/4/last.json?api_key=L7E4KLX05NZN5NEB", function(result){
+        	
+            var m = result;
+            dia=Number(m.field4);
+            
+                        
+                
+        });
+       $.getJSON("https://api.thingspeak.com/channels/1319063/fields/5/last.json?api_key=L7E4KLX05NZN5NEB", function(result){
+        	
+            var m = result;
+            mes=Number(m.field5);
+           
+                        
+                
+        });
+       $.getJSON("https://api.thingspeak.com/channels/1319063/fields/6/last.json?api_key=L7E4KLX05NZN5NEB", function(result){
+        	
+            var m = result;
+            año=Number(m.field6);
+           
+                        
+                
+        });
+       $.getJSON("https://api.thingspeak.com/channels/1319063/fields/7/last.json?api_key=L7E4KLX05NZN5NEB", function(result){
+        	
+            var m = result;
+            hora=Number(m.field7);
+          
+                        
+                
+        });
+       $.getJSON("https://api.thingspeak.com/channels/1319063/fields/8/last.json?api_key=L7E4KLX05NZN5NEB", function(result){
+        	
+            var m = result;
+            minutos=Number(m.field8);
+          
+                        
+                
+        });
+       $.getJSON("https://api.thingspeak.com/channels/1058626/fields/9/last.json?api_key=ZPBBEFIMDCPRMZOK", function(result){
+        	
+            var m = result;
+            result8=Number(m.field9);
+          
+                        
+                
+        });
+       
+        }
+    //--------------------------------------------------------------------------------------------------------------------
+    
+    function datos(){
+        var temperatura = (temp + "ºC");
+        document.getElementById("descripcionaplicaciontemp").innerHTML=temperatura;   
+        
+        var humedad = (hume + "%");
+        document.getElementById("descripcionaplicacionhum").innerHTML=humedad;   
+    }
+    function fecha(){
+        var fecha = ("La útlima actualización se realizó el " + dia + "/" + mes + "/" + año + " a las " + hora + ":" + minutos + ".");
+        document.getElementById("descripcionaplicacion").innerHTML=fecha;
+        
+        if((result1 === result1anterior) && (result2 === result2anterior)){
+            if((result7 === result7anterior) && (result8 === result8anterior)){
+                document.getElementById("nombrereproduciendo").innerHTML="El dispositivo está sin conexión."; 
+            }
+            else{
+                document.getElementById("nombrereproduciendo").innerHTML="El dispositivo está parado."; 
+            }
+
+        }
+        else{
+            document.getElementById("nombrereproduciendo").innerHTML="El dispositivo está en movimiento.";
+
+        }
+        result1anterior = result1;
+        result2anterior = result2;
+        result7anterior = result7;
+        result8anterior = result8;
+    }
+    function comprobar(){
+        
+    }
+    window.onload = function() {
+        setInterval(loadmaps, 3000);
+        setInterval(fecha, 6000);
+        setInterval(datos, 6000);    
+    }
+</script>
+
+    
+    
+    
+    
+<body> 
+    <div id="todo">
+        <img id="logomapa" src="vestido_logo.png" alt="logo JA"/>
+        <h1 id="titulologo">Smart Dress</h1>  
+        <h2 id="titulousuario">FabLAB - Colegio Salesianos Santo Ángel Avilés</h2>
+        
+    
+
+        <div id="resumen">
+            <center>
+                <img id="logousuario" src="logo_fablab2.png" alt="Menú"/>
+                <p>
+                <h5 id="descripcionjose">Desarrollado por:</h5>
+                <p>
+                <h3 id="nombreusuario">CSSA <br> Makers</h3>
+              </center>
+        </div>
+        <div id="mapa">
+                <h3 id="mapatexto">Ubicación geográfica</h3>
+                <iframe id="mapathings" src="https://thingspeak.com/apps/matlab_visualizations/398054" scrolling="no"></iframe> 
+        </div>
+        
+        <div id="paneldecontrol">
+            <h3 id="nombreusuario1">Información del vestido</h3>
+            <h5 id="descripcionaplicacion2">La ubicación del dispositivo se actualiza cada 20 segundos.</h5>    
+        </div>
+            
+        <div id="grandedatos">
+                    <div id="ultravioleta">
+                    <h3 id="ultravioleta1">Luz ultravioleta</h3>
+                    <h5 id="descripcionaplicacionultra">La fuente principal de luz ultravioleta es el sol.</h5>
+                    <iframe id="ultrthings" src="https://thingspeak.com/channels/1288633/charts/4?bgcolor=%23ADA4F6&color=%23424949&dynamic=true&results=10&type=column&update=15" scrolling="no"></iframe> 
+                    
+                    </div>
+                    <h3 id="gasess">Gases en el ambiente</h3>
+                    <div id="gasesvalores">
+                        <h3 id="gasesvalores1">Butano</h3>
+                        <h5 id="descripcionaplicaciongas">La ubicación del dispositivo se actualiza cada 20 segundos.</h5>
+                    </div>
+            
+                    <div id="valordioxido">
+                        <h3 id="valordioxido1">Dióxido de Carbono</h3>
+                        <h5 id="descripciondioxido">La ubicación del dispositivo se actualiza cada 20 segundos.</h5>
+                    </div>
+            
+                    <div id="valorcalidaddelaire">
+                        <h3 id="valoraire1">Calidad del Aire</h3>
+                        <h5 id="descripcionaire">La ubicación del dispositivo se actualiza cada 20 segundos.</h5>
+                    </div>
+            
+            
+                    <div id="temperatura">
+                    <h3 id="temperatura1">Temperatura</h3>
+                    <center>
+                    <h5 id="descripcionaplicaciontemp"></h5>
+                    </center>
+                    </div>
+            
+                    <div id="humedad">
+                        <h3 id="humedad1">Humedad</h3>
+                        <center>
+                            <h5 id="descripcionaplicacionhum"></h5>
+                        </center>
+                    </div>
+        </div>
+                        
+        
+        
+        <h3 id="panel" >Últimos registros</h3>
+        
+        
+        <div id="actualizacion">
+                <h3 id="nombreusuario2">Última actualización</h3>
+            
+            <h5 id='descripcionaplicacion'></h5>
+                 
+            </div>
+        
+        <div id="impresora">
+                <h3 id="nombreusuario3">Última impresión</h3>
+            
+            <h5 id='descripcionaplicacion'></h5>
+                 
+            </div>
+            
+        </div>
+</body>
+
+    
+<style>
+    #mapathings{
+        height: 270px;
+        width: 425px;
+        border: none;
+    }
+    #ultrthings{
+        height: 215px;
+        width: 425px;
+        border: none;
+    }
+    #nombrereproduciendotitulo{
+        font-size:16px;
+        font-family: Raleway;
+        font-weight: 400;
+        margin-top: 0px;
+        margin-bottom: 5px;
+        color: #FFFFFF;
+        z-index: 2;
+    }
+    #descripcionjose{
+        margin-top: -30px;
+        font-size:13px;
+        margin-top: 10px;
+        margin-bottom: -11px;
+        font-family: sans-serif;
+        font-weight: 300;
+        color: #ffffff;
+    }
+    
+    
+    #panel{
+        position: absolute;
+        left: 50%;
+        margin-left: -669px; 
+        margin-top: 785px;
+        
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        color: #424949;
+    }
+    #gasess{
+        position: absolute;
+        left: 50%;
+       margin-top: -570px ;
+        margin-left: -330px; 
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        color: #424949;
+    }
+    
+   
+    #actualizacion{
+        float:left;
+        padding: 40px;
+        box-shadow: rgb(217, 217, 217) 5px 5px 20px;
+        height: 71px;
+        width: 240px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-top: 1010px ;
+        margin-left: -672px; 
+        
+        background: #ffffff;
+ 
+        
+    }
+    
+    #impresora{
+        float:left;
+        padding: 40px;
+        box-shadow: rgb(217, 217, 217) 5px 5px 20px;
+        height: 71px;
+        width: 240px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-top: 840px ;
+        margin-left: -672px;   
+        background: #ffffff;
+    }
+    #enlaceaplicacion{
+        outline: none;
+        float: center;
+        cursor: pointer;
+        font-size:13px;
+        font-family: Raleway;
+        font-weight: 300;
+        color: #ffffff;
+        background: #424949;
+        padding: 4px;
+        height: 34px;
+        width: 118px;
+        border-radius: 5px;
+        position: center;
+        border:1px solid #424949;
+    }
+    
+    #conjuntocajas{
+        margin-top: 640px ;
+        position: absolute;
+        left: 50%;
+        margin-left: -699px;  
+    }
+    #resumen{
+        background:#1A1A1A;
+        float:left;
+        padding: 40px;
+        box-shadow: rgb(217, 217, 217) 5px 5px 20px;
+        height: 220px;
+        width: 240px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: 168px ;
+        margin-left: -672px; 
+    }
+    #mapa{
+        background:#ffffff;
+        float:left;
+        padding: 40px;
+        box-shadow: rgb(217, 217, 217) 5px 5px 20px;
+        height: 310px;
+        width: 420px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: 168px ;
+        margin-left: -330px; 
+    }
+    #paneldecontrol{
+        background: #1A1A1A;
+        float:left;
+        padding: 40px;
+        box-shadow: rgb(217, 217, 217) 5px 5px 20px;
+        height: 189px;
+        width: 240px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: 490px ;
+        margin-left: -672px; 
+    }
+        
+    #ultravioleta{
+        background: #A7A7F5;
+        float:left;
+        padding: 40px;
+        height: 300px;
+        width: 430px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: -740px ;
+        margin-left: 190px; 
+        
+    }
+    
+       #gasesvalores{
+        background: #F5CBA7 ;
+        float:left;
+        padding: 40px;
+        height: 160px;
+        width: 164px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: -500px ;
+        margin-left: -330px; 
+        
+    }
+    
+    #valordioxido{
+        background: #BCF5A7 ;
+        float:left;
+        padding: 40px;
+        height: 160px;
+        width: 164px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: -500px ;
+        margin-left: -70px; 
+        
+    }
+    
+    #valorcalidaddelaire{
+        background: #A7CFF5 ;
+        float:left;
+        padding: 40px;
+        height: 160px;
+        width: 423px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: -240px ;
+        margin-left: -328px; 
+        
+    }
+    
+        #temperatura{
+        background: #F5F4A7 ;
+        float:left;
+        padding: 40px;
+        height: 160px;
+        width: 164px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: -997px ;
+        margin-left: 455px; 
+        
+    }
+    
+        #humedad{
+        background: #F5A7A7;
+        float:left;
+        padding: 40px;
+        height: 160px;
+        width: 164px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: -997px ;
+        margin-left: 190px; 
+        
+    }
+    
+    #grandedatos{
+        float:left;
+        padding: 40px;
+        height: 0px;
+        width: 1265px;
+        position: absolute;
+        left: 50%;
+        border-radius: 9px;
+        margin-bottom: 15px;
+        margin-top: 1125px ;
+        margin-left: -672px; 
+    }
+    
+    
+    #logousuario{
+        height: 86px;
+        width: 90px;
+        margin-top: 15px;
+    }
+    #titulologo{
+        font-size:32px;
+        font-family: Raleway;
+        color:#272727;
+        font-weight:300;
+        position: absolute;
+        left: 50%;
+        margin-left: -549px; 
+        margin-top: 57px;
+    }
+    #titulousuario{
+        font-size:21px;
+        font-family: Raleway;
+        color:#161616;
+        font-weight:300;
+        position: absolute;
+        left: 50%;
+        margin-left: -549px; 
+        margin-top: 95px;
+    }
+    #logomapa{
+        height:130px;
+        width: 130px;
+        position: absolute;
+        left: 51%;
+        margin-left: -695px; 
+        margin-top: 30px;
+    }
+    #logomenu, #logocolor{
+     	cursor: pointer;
+        width: 30px;
+        height: 30px;
+        margin-left: 5px;
+    }
+    #nombreaplicacion{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #FFFFFF;
+    }
+     #nombreusuario{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #ffffff;
+    }
+    
+     #nombreusuario1{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #FFFFFF;
+    }
+     #mapatexto{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #17202A;
+    }
+    
+    #nombreusuario2{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #17202A;
+    }
+    
+    #nombreusuario3{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #17202A;
+    }
+    
+    #ultravioleta1{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+    #gasesvalores1{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+    #valordioxido1{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+    #valoraire1{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+     #temperatura1{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+    #humedad1{
+        font-size:23px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+    
+    #descripcionaplicacionultra{
+        font-size:-10px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+    #descripcionaplicaciongas{
+        font-size:-10px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+    #descripciondioxido{
+        font-size:-10px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+    #descripcionaire{
+        font-size:-10px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 0px;
+        color: #424949;
+    }
+    
+      #descripcionaplicaciontemp{
+         font-size:30px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 50px;
+        color: #424949;
+    }
+    
+      #descripcionaplicacionhum{
+        font-size:30px;
+        font-family: Raleway;
+        font-weight: 300;
+        margin-top: 50px;
+        color: #424949;
+    }
+    
+    #descripcionaplicacion{
+        margin-top: -10px;
+        font-size:13px;
+        margin-bottom: 35px;
+        font-family: sans-serif;
+        font-weight: 300;
+        color: #ffffff;
+    }
+    
+       #descripciondatos{
+        margin-top: -10px;
+        font-size:30px;
+        margin-bottom: 35px;
+        font-family: Raleway;
+        font-weight: 300;
+        color: #424949;
+        margin-left: 575px; 
+        
+    }
+    
+    #descripcionaplicacion2{
+        margin-top: -10px;
+        font-size:13px;
+        margin-bottom: 35px;
+        font-family: sans-serif;
+        font-weight: 300;
+        color: #FFFFFF ;
+    }
+    body{
+        margin: 0; 
+        background: #F5F5F5;      
+        
+    }
+    </style>
+</html>
